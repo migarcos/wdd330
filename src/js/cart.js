@@ -2,6 +2,7 @@ import { getLocalStorage } from "./utils.mjs";
 
 function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
+    <span data-id="${item.Id}" class="remove-item">X</span>
     <a href="#" class="cart-card__image">
       <img
         src="${item.Image}"
@@ -16,15 +17,13 @@ function cartItemTemplate(item) {
       item.Quantity
     }</span></p>
     <p class="cart-card__price">$${item.FinalPrice.toFixed(2)} per item</p>
-    <p class="cart-card__total-price">$${(
-      item.FinalPrice * item.Quantity
-    ).toFixed(2)} total</p>
     <button class="decrease-quantity">-</button>
     <button class="increase-quantity">+</button>
   </li>`;
 
   return newItem;
 }
+
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
@@ -45,6 +44,15 @@ function renderCartContents() {
 
   decreaseButtons.forEach((button, index) => {
     button.addEventListener("click", () => decreaseQuantity(index));
+  });
+
+  // Add event listeners for X icons (remove items)
+  const removeIcons = productList.querySelectorAll(".remove-item");
+  removeIcons.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      const productId = icon.getAttribute("data-id");
+      removeItemFromCart(productId);
+    });
   });
 }
 
@@ -80,5 +88,19 @@ function saveCart(cartItems) {
   // Save the updated cart items to local storage
   localStorage.setItem("so-cart", JSON.stringify(cartItems));
 }
+
+function removeItemFromCart(productId) {
+  const cartItems = getLocalStorage("so-cart");
+  const updatedCart = cartItems.filter((item) => item.Id !== productId);
+  saveCart(updatedCart);
+  renderCartContents();
+}
+
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("remove-item")) {
+    const productId = event.target.getAttribute("data-id");
+    removeItemFromCart(productId);
+  }
+});
 
 renderCartContents();
