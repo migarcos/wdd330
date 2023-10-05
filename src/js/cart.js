@@ -24,7 +24,6 @@ function cartItemTemplate(item) {
   return newItem;
 }
 
-
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   const cartItemsArray = Array.isArray(cartItems) ? cartItems : [];
