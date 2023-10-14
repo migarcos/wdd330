@@ -1,4 +1,7 @@
 import { getLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
@@ -63,6 +66,7 @@ function increaseQuantity(index) {
     cartItemsArray[index].Quantity++;
     saveCart(cartItemsArray);
     renderCartContents();
+    addPrice();
   }
 }
 
@@ -80,6 +84,7 @@ function decreaseQuantity(index) {
       saveCart(cartItemsArray);
     }
     renderCartContents();
+    addPrice();
   }
 }
 
@@ -93,6 +98,7 @@ function removeItemFromCart(productId) {
   const updatedCart = cartItems.filter((item) => item.Id !== productId);
   saveCart(updatedCart);
   renderCartContents();
+  addPrice();
 }
 
 document.addEventListener("click", (event) => {
@@ -102,4 +108,49 @@ document.addEventListener("click", (event) => {
   }
 });
 
+function addPrice() {
+  const cartItems = getLocalStorage("so-cart");
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.FinalPrice * item.Quantity,
+    0
+  );
+
+  document.querySelector(".cart-price").textContent = total.toFixed(2);
+}
+// function addPrice() {
+//   let itemExist = getLocalStorage("so-cart") || [];
+
+//   let sum = 0;
+//   const total = itemExist.reduce(
+//     (sum, item) => (sum += item.FinalPrice * item.Quantity),
+//     0
+//   );
+//   console.log(total);
+//   document.querySelector(".cart-price").textContent = total.toFixed(2);
+// }
+
+function addToCart(item) {
+  const cartItems = getLocalStorage("so-cart");
+  const cartItemsArray = Array.isArray(cartItems) ? cartItems : [];
+
+  // Check if the item is already in the cart
+  const existingItem = cartItemsArray.find(
+    (cartItem) => cartItem.Id === item.Id
+  );
+
+  if (existingItem) {
+    // Item already exists in the cart, increment its quantity
+    existingItem.Quantity++;
+  } else {
+    // Item is not in the cart, add it
+    item.Quantity = 1;
+    cartItemsArray.push(item);
+  }
+
+  saveCart(cartItemsArray);
+  renderCartContents();
+  addPrice();
+}
+
 renderCartContents();
+addPrice();
