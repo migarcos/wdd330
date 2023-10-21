@@ -254,6 +254,53 @@ button {
   margin-bottom: 5px;
 }
 
+/* Cart Animation */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* .cart-icon {
+  display: inline-block;
+  animation-name: spin;
+  animation-duration: 2s; 
+  animation-timing-function: linear; 
+  animation-iteration-count: infinite; 
+} */
+.animation {
+  animation: cart-anim 1.5s linear;
+}
+
+/* Styling for Category Images */
+.categoryBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  text-align: center;
+  margin-left: 30px;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
