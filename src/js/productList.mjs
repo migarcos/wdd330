@@ -7,9 +7,9 @@ function productCardTemplate(product) {
   let discountPrice = Math.round(discountAmount * 100)/100;
   
     return `<li class="product-card">
-    <a href="product_pages/index.html?product=${product.Id}">
+    <a href="/product_pages/index.html?product=${product.Id}">
     <img
-      src="${product.Image}"
+      src="${product.Images.PrimaryMedium}"
       alt="Image of ${product.Name}"
     />
     <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -17,13 +17,18 @@ function productCardTemplate(product) {
     <p class="product-card__price">$${product.FinalPrice}</p></a>
     <p class="product-card__originalprice"><em>$${discountPrice} off!</em></p></a>
   </li>`;
-}             
+}         
+
+export { productCardTemplate }; // Export the productCardTemplate function
+export function getDiscountPrice(product) {
+  const discountAmount = product.SuggestedRetailPrice - product.FinalPrice;
+  return Math.round(discountAmount * 100) / 100;
+}
 
 export default async function productList(selector, category) {
   const el = document.querySelector(selector);
   const products = await getData(category);
 
-  const filteredTents = products.filter(product => product.Name.includes("Tent")).slice(0, 4);
-
-  renderListWithTemplate(productCardTemplate, el, filteredTents);
+  renderListWithTemplate(productCardTemplate, el, products);
+  document.querySelector(".title").innerHTML = category;
 }
