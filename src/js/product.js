@@ -29,7 +29,7 @@ function addProductToCart(product) {
     cart.push(product);
   }
 
-  setLocalStorage("so-cart", cart);  
+  setLocalStorage("so-cart", cart);
 }
 
 async function addToCartHandler(e) {

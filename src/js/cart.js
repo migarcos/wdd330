@@ -5,7 +5,6 @@ import shoppingCart from "./shoppingCart.mjs";
 shoppingCart();
 loadHeaderFooter();
 
-
 // function cartItemTemplate(item) {
 //   const newItem = `<li class="cart-card divider">
 //     <span data-id="${item.Id}" class="remove-item">X</span>
@@ -29,8 +28,6 @@ loadHeaderFooter();
 
 //   return newItem;
 // }
-
-
 
 // function renderCartContents() {
 //   const cartItems = getLocalStorage("so-cart");
