@@ -14,26 +14,26 @@
   </head>
 
   <body>
-    <header class="divider" id="main-header">
-      
-    </header>
+    <header class="divider" id="main-header"></header>
 
     <main class="divider">
       <section class="products">
         <h2>My Cart</h2>
 
-        <ul class="product-list">
-        </ul>
+        <ul class="product-list"></ul>
       </section>
-      <div>
-        <p class="cart-total">Total: $<span class="cart-price"></span></p>
-        <p class="cart-item-count">Total Items: <span class="item-count">0</span></p>
+      <div class="cart-totals-div">
+        <p class="cart-qty">
+          Total Qty of Items: <span class="cart-items-count"></span>
+        </p>
+        <p class="cart-total">Total Price: $<span class="cart-price"></span></p>
       </div>
-      <div class="cart-checkout-button">
-        <button><a href="/checkout/index.html">Checkout</a></button>
-      </div>
+      <a href="../checkout/index.html">
+      <button class="checkout-button">Checkout</button>
+      </a>
     </main>
 
     <footer id="main-footer"></footer>
+    <script src="../js/superscript.js" type="module"></script>
   </body>
 </html>

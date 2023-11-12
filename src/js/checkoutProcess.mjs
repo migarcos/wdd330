@@ -1,6 +1,8 @@
 import {
-  setLocalStorage,
+
   getLocalStorage,
+  setLocalStorage,
+
   alertMessage,
   removeAllAlerts,
 } from "./utils.mjs";
@@ -19,7 +21,7 @@ function formDataToJSON(formElement) {
 
 function packageItems(items) {
   const simplifiedItems = items.map((item) => {
-    console.log(item);
+
     return {
       id: item.Id,
       price: item.FinalPrice,
@@ -31,18 +33,23 @@ function packageItems(items) {
 }
 
 function addPrice(checkoutProcess) {
-    const numItems = getLocalStorage("so-cart");
-    const cartTotal = numItems.reduce(
-        (acc, item) => acc + item.FinalPrice * item.Quantity,
-        0 
-    );
 
-    // Calculate the total items in cart
-    const totalItems = numItems.reduce((count, item) => count + item.Quantity, 0);
+  const cartItems = getLocalStorage("so-cart");
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.FinalPrice * item.Quantity,
+    0
+  );
 
-    // Store the values in the checkoutProcess object
-    checkoutProcess.itemTotal = cartTotal.toFixed(2);
-    checkoutProcess.totalItems = totalItems;
+  // Calculate the total item count
+  const totalItems = cartItems.reduce(
+    (count, item) => count + item.Quantity,
+    0
+  );
+
+  // Store these values in the checkoutProcess object
+  checkoutProcess.itemTotal = total.toFixed(2);
+  checkoutProcess.totalItems = totalItems;
+
 }
 
 const checkoutProcess = {
@@ -65,10 +72,16 @@ const checkoutProcess = {
       this.outputSelector + " #cartTotal"
     );
     const itemNumElement = document.querySelector(
-      this.outputSelector + " #numItems"
+
+      this.outputSelector + " #num-items"
     );
-    itemNumElement.innerText = this.totalItems;
-    summaryElement.innerText = "$" + this.itemTotal;
+    itemNumElement.innerText = this.list.length;
+    // calculate the total of all the items in the cart
+    const amounts = this.list.map((item) => item.FinalPrice);
+    this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
+    const formattedItemTotal = this.itemTotal.toFixed(2);
+    summaryElement.innerText = "$" + formattedItemTotal;
+
   },
   calculateOrdertotal: function () {
     this.shipping = 10 + (this.totalItems - 1) * 2;
@@ -107,16 +120,16 @@ const checkoutProcess = {
       shipping: this.shipping.toFixed(2),
       tax: this.tax,
     };
-  
+
     console.log(json);
-  
+
     try {
       const res = await checkout(json);
       console.log(res);
       setLocalStorage("so-cart", []);
       location.assign("/checkout/success.html");
     } catch (err) {
-      // get rid of any preexisting alerts.
+
       removeAllAlerts();
       for (let message in err.message) {
         alertMessage(err.message[message]);
@@ -128,4 +141,6 @@ const checkoutProcess = {
 };
 
 addPrice(checkoutProcess);
+
 export default checkoutProcess;
+

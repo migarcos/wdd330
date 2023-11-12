@@ -17,17 +17,12 @@ function productCardTemplate(product) {
     <p class="product-card__price">$${product.FinalPrice}</p></a>
     <p class="product-card__originalprice"><em>$${discountPrice} off!</em></p></a>
   </li>`;
-}         
-
-export { productCardTemplate }; // Export the productCardTemplate function
-export function getDiscountPrice(product) {
-  const discountAmount = product.SuggestedRetailPrice - product.FinalPrice;
-  return Math.round(discountAmount * 100) / 100;
-}
+}             
 
 export default async function productList(selector, category) {
   const el = document.querySelector(selector);
   const products = await getProductsByCategory(category);
+
 
   renderListWithTemplate(productCardTemplate, el, products);
   document.querySelector(".title").innerHTML = category;

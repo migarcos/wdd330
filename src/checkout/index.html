@@ -35,18 +35,22 @@
           <fieldset>
             <legend>Payment</legend>
             <label for="cardNumber">Card number</label>
-            <input type="text" name="cardNumber" required />
+
+            <input type="number" name="cardNumber" required />
             <label for="expiration">Expiration</label>
             <input type="text" name="expiration" required />
             <label for="code">Security Code</label>
-            <input type="text" name="code" required />
+            <input type="number" name="code" required />
+
           </fieldset>
           <fieldset class="checkout-summary">
             <legend>Order Summary</legend>
             <ul>
               <li>
                 <label for="cartTotal"
-                  >Item Subtotal(<span id="numItems"></span>)</label
+
+                  >Item Subtotal(<span id="num-items"></span>)</label
+
                 >
                 <p name="cartTotal" id="cartTotal"></p>
               </li>
@@ -70,5 +74,6 @@
       </section>
     </main>
     <footer id="main-footer"></footer>
+    <script src="../js/superscript.js" type="module"></script>
   </body>
 </html>

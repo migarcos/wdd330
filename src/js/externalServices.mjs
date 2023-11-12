@@ -1,9 +1,12 @@
 const baseURL = import.meta.env.VITE_SERVER_URL;
-function convertToJson(res) {
+async function convertToJson(res) {
+  const data = await res.json();
   if (res.ok) {
-    return res.json();
+    return data;
   } else {
-    throw { name: 'servicesError', message: jsonResponse };
+
+    throw { name: "servicesError", message: data };
+
   }
 }
 
@@ -20,7 +23,7 @@ export async function findProductById(id) {
 }
 
 export async function checkout(payload) {
-  console.log("Payload:", payload);
+
   const options = {
     method: "POST",
     headers: {
@@ -29,4 +32,30 @@ export async function checkout(payload) {
     body: JSON.stringify(payload),
   };
   return await fetch(baseURL + "checkout/", options).then(convertToJson);
+
+}
+
+export async function loginRequest(user) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  };
+  const response = await fetch(baseURL + "login", options).then(convertToJson);
+  return response.accessToken;
+}
+
+export async function getOrders(token) {
+  const options = {
+    method: "GET",
+    // the server will reject our request if we don't include the Authorization header with a valid token!
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await fetch(baseURL + "orders", options).then(convertToJson);
+  return response;
+
 }

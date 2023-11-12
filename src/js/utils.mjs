@@ -65,6 +65,7 @@ function loadTemplate(path){
 }
 
 export async function loadHeaderFooter() {
+  document.addEventListener("DOMContentLoaded", async function () {
   // header template will still be a function! But one where we have pre-supplied the argument.
   // headerTemplate and footerTemplate will be almost identical, but they will remember the path we passed in when we created them
   // why is it important that they stay functions?  The renderWithTemplate function is expecting a template function...if we sent it a string it would break, if we changed it to expect a string then it would become less flexible.
@@ -74,6 +75,9 @@ export async function loadHeaderFooter() {
   const footerEl = document.querySelector("#main-footer");
   renderWithTemplate(headerTemplateFn, headerEl);
   renderWithTemplate(footerTemplateFn, footerEl);
+
+  });
+
 }
 
 export function alertMessage(message, scroll = true, duration = 3000) {
