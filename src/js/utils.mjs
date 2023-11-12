@@ -75,7 +75,9 @@ export async function loadHeaderFooter() {
   const footerEl = document.querySelector("#main-footer");
   renderWithTemplate(headerTemplateFn, headerEl);
   renderWithTemplate(footerTemplateFn, footerEl);
+
   });
+
 }
 
 export function alertMessage(message, scroll = true, duration = 3000) {

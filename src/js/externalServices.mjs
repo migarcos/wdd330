@@ -4,7 +4,9 @@ async function convertToJson(res) {
   if (res.ok) {
     return data;
   } else {
+
     throw { name: "servicesError", message: data };
+
   }
 }
 
@@ -21,6 +23,7 @@ export async function findProductById(id) {
 }
 
 export async function checkout(payload) {
+
   const options = {
     method: "POST",
     headers: {
@@ -29,6 +32,7 @@ export async function checkout(payload) {
     body: JSON.stringify(payload),
   };
   return await fetch(baseURL + "checkout/", options).then(convertToJson);
+
 }
 
 export async function loginRequest(user) {
@@ -53,4 +57,5 @@ export async function getOrders(token) {
   };
   const response = await fetch(baseURL + "orders", options).then(convertToJson);
   return response;
+
 }
