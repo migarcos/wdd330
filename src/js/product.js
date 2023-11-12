@@ -52,3 +52,58 @@ cartButton.addEventListener("click", cartanimation);
 document
   .getElementById("addToCart")
   .addEventListener("click", addToCartHandler);
+
+  function addComment() {
+    const commentInput = document.getElementById("commentText");
+    const commentText = commentInput.value;
+    const commentAuthor = document.getElementById("commentAuthor").value;
+    if (commentText) {
+      const commentsData = getComments();
+      commentsData.push({ author: commentAuthor, text: commentText });
+      setComments(commentsData);
+  
+      commentInput.value = "";
+      document.getElementById("commentAuthor").value = "";
+      displayComments();
+    }
+  }
+  
+  function displayComments() {
+    const commentsList = document.querySelector(".list");
+    commentsList.innerHTML = "";
+  
+    const commentsData = getComments();
+  
+    commentsData.forEach((comment) => {
+      const commentHTML = `
+              <div class="user">
+                  <div class="user-meta">
+                      <div class="name">${comment.author}</div>
+                      <div class="day">Just now</div>
+                  </div>
+                  <div class="comment-post">${comment.text}</div>
+              </div>
+          `;
+  
+      commentsList.innerHTML += commentHTML;
+    });
+  }
+  
+  function getComments() {
+    const comments = localStorage.getItem("comments");
+  
+    return comments ? JSON.parse(comments) : [];
+  }
+  
+  function setComments(comments) {
+    localStorage.setItem("comments", JSON.stringify(comments));
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    displayComments();
+  
+    const addCommentButton = document.querySelector(".comment-submit");
+    if (addCommentButton) {
+      addCommentButton.addEventListener("click", addComment);
+    }
+  });
